@@ -18,24 +18,29 @@ namespace SoftwareTechChallenge.Controller
         /// </summary>
         /// <param name="id">Input from client</param>
         /// <returns>It return PE if input is multiple of 3 and 5, return E if input is multiple of 5, return P if input is multiple of 5, return input as string if number is not a multilpe of 3 and 5   </returns>
-        public IHttpActionResult Get(int? id)
+        public IHttpActionResult Get(string id)
         {
             // Create an instance of MultipleCheckerHelper
             MultipleCheckerHelper multipleCheckerHelper = new MultipleCheckerHelper();
             string returnMessage = "";
             // if client did not send input while requesting the API method, system send incorrect format message
-            if (id==null)
+            if (string.IsNullOrWhiteSpace(id))
                 returnMessage = "Input is not in correct format";
+            else if (!int.TryParse("123", out _))
+            {
+                returnMessage = "Input must be a string";
+            }
             else
             {
-                if (multipleCheckerHelper.IsMultipleOfFiveAndThree((int)id))
+                int number = Convert.ToInt32(id);
+                if (multipleCheckerHelper.IsMultipleOfFiveAndThree(number))
                     returnMessage = "PE";
-                else if (multipleCheckerHelper.IsMultipleOfNumber((int)id,5))
+                else if (multipleCheckerHelper.IsMultipleOfNumber(number, 5))
                     returnMessage = "E";
-                else if (multipleCheckerHelper.IsMultipleOfNumber((int)id,3))
+                else if (multipleCheckerHelper.IsMultipleOfNumber(number, 3))
                     returnMessage = "P";
                 else
-                    returnMessage = id.Value.ToString();
+                    returnMessage = number.ToString();
 
             }
             return Json(returnMessage);
