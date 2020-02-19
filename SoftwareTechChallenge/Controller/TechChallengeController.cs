@@ -26,7 +26,7 @@ namespace SoftwareTechChallenge.Controller
             // if client did not send input while requesting the API method, system send incorrect format message
             if (string.IsNullOrWhiteSpace(id))
                 returnMessage = "Input is not in correct format";
-            else if (!int.TryParse("123", out _))
+            else if (!id.All(char.IsDigit))
             {
                 returnMessage = "Input must be a string";
             }
